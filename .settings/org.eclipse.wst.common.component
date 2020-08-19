@@ -2,7 +2,7 @@
     <wb-module deploy-name="project-builder-jdbc-blog">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="project-builder-jdbc-blog"/>
         <property name="java-output-path" value="/project-builder-jdbc-blog/build/classes"/>
+        <property name="context-root" value="project-builder-jdbc-blog-SignUp"/>
     </wb-module>
 </project-modules>

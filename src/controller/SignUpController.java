@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.time.LocalDate;
 
 import javax.servlet.RequestDispatcher;
@@ -25,7 +26,16 @@ public class SignUpController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		System.out.println("Sign up Controller");
+		Connection con=null;
+		con=ConnectionManager.getConnection();
+		if(con!=null) {
+			System.out.println("Database connection established");
+		}
+		else
+		{
+			System.out.println("Check your connection");
+		}
 		RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/signupView.jsp");
 		rd.forward(request,response);
 	}
@@ -39,8 +49,14 @@ public class SignUpController extends HttpServlet {
 		String confirmPassword = request.getParameter("confirmPassword"); //  get the confirm password value from the jsp/html page
 		LocalDate date= LocalDate.now(); // Java 8 Time API used to get system date and time at a particular instance
 		
-		// Fill your code here
-		
+		//object user
+		User user=new User();
+		user.setEmail(email);
+		user.setPassword(password);
+		//object userdao
+		UserDAO userdao=new UserDAO();
+		user.setDate(date);
+		int checkUser = userdao.signUp(user);
 		
 		if(checkUser!=0)
 		{
