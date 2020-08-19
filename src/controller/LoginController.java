@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import businesslogic.ValidateUser;
 import dao.UserDAO;
 import model.User;
 
@@ -20,8 +19,7 @@ import model.User;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
-    public LoginController() {
+	public LoginController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,16 +34,19 @@ public class LoginController extends HttpServlet {
 		String email = request.getParameter("email"); //  get the email value from the jsp/html page
 		String password = request.getParameter("password"); //  get the password value from the jsp/html page
 
-		//user object
-		User user = new User();
+		// Fill your code
+		User user=new User();
 		user.setEmail(email);
 		user.setPassword(password);
+		UserDAO userdao=new UserDAO();
 		
-		//userdao object
-		UserDAO userdao = new UserDAO();
-		
-		boolean validateUser = userdao.loginUser(user);
-		
+		boolean validateUser=false;
+		try {
+		validateUser = userdao.loginUser(user);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(validateUser) {
 			RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/blogView.jsp");
 			rd.forward(request, response);
@@ -55,5 +56,6 @@ public class LoginController extends HttpServlet {
 			rd.forward(request, response);
 		}	
 	}
+
 
 }

@@ -1,8 +1,11 @@
 package dao;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import model.User;
 
-public interface UserDaoInterface {
-	int signUp(User user);
-	boolean loginUser(User user);
+interface UserDaoInterface{
+	public int signUp(User user) throws ClassNotFoundException,SQLException,IOException, Exception;
+	public boolean loginUser(User user) throws ClassNotFoundException,IOException,SQLException;
+	
 }

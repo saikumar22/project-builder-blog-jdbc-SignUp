@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.time.LocalDate;
 
 import javax.servlet.RequestDispatcher;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.UserDAO;
 import model.User;
-import utility.ConnectionManager;
 
 @WebServlet(urlPatterns= {"/signup"})
 public class SignUpController extends HttpServlet {
@@ -26,38 +24,32 @@ public class SignUpController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Sign up Controller");
-		Connection con=null;
-		con=ConnectionManager.getConnection();
-		if(con!=null) {
-			System.out.println("Database connection established");
-		}
-		else
-		{
-			System.out.println("Check your connection");
-		}
+
 		RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/signupView.jsp");
 		rd.forward(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		
-		
-			String email = request.getParameter("email"); //  get the email value from the jsp/html page
+		String email = request.getParameter("email"); //  get the email value from the jsp/html page
 		String password = request.getParameter("password"); //  get the password value from the jsp/html page
+		@SuppressWarnings("unused")
 		String confirmPassword = request.getParameter("confirmPassword"); //  get the confirm password value from the jsp/html page
 		LocalDate date= LocalDate.now(); // Java 8 Time API used to get system date and time at a particular instance
 		
-		//object user
-		User user=new User();
+		// Fill your code here
+		User user =new User();
+		UserDAO ud=new UserDAO();
+		
 		user.setEmail(email);
 		user.setPassword(password);
-		//object userdao
-		UserDAO userdao=new UserDAO();
 		user.setDate(date);
-		int checkUser = userdao.signUp(user);
-		
+		int checkUser=0;
+		try {
+			checkUser = ud.signUp(user);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		if(checkUser!=0)
 		{
 						
